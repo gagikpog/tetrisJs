@@ -123,3 +123,25 @@ function rotateClockwise(matrix) {
     }
     return newMatrix;
 }
+
+/**
+ * @param { boolean[][] } map
+ * @returns { number } removedCount
+ */
+export function clearFullRows(map) {
+
+    const newMap = map.filter((arr) => !arr.every(Boolean));
+    const removedCount = map.length - newMap.length;
+
+    if (removedCount) {
+        for (let i = 0; i < map.length; i++) {
+            if (i < removedCount) {
+                map[i] = Array(map[i].length).fill(false);
+            } else {
+                map[i] = newMap[i - removedCount];
+            }
+        }
+    }
+
+    return removedCount;
+}

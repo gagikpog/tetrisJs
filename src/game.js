@@ -1,7 +1,7 @@
 import { Block } from "./block.js";
-import { BlocksType, RotateType } from "./constants.js";
+import { RotateType } from "./constants.js";
 import { Display } from "./display.js";
-import { copyToMap, canMove, rotate, getRandomBlock } from './functions.js';
+import { copyToMap, canMove, rotate, getRandomBlock, clearFullRows } from './functions.js';
 
 export class Game {
 
@@ -13,6 +13,9 @@ export class Game {
 
     /** @private @type { Block } */
     _block;
+
+    /** @private @type { number } */
+    _clearedRowsCount = 0;
 
     /**
      * @param {{ display: Display, width?: number, height?: number }} options
@@ -48,6 +51,7 @@ export class Game {
         } else {
             this._addBlock();
         }
+        this._clearedRowsCount += clearFullRows(this._map);
 
         this.redraw();
     }

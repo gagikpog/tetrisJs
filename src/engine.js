@@ -49,24 +49,34 @@ export class Engine {
 
         switch(event.code) {
             case 'ArrowUp':
-                this._game.rotate();
-                this._game.redraw();
+                if (this._isRunning) {
+                    this._game.rotate();
+                    this._game.redraw();
+                }
                 break;
             case 'ArrowDown':
-                this._game.moveBlock(0, 1);
-                this._game.redraw();
+                if (this._isRunning) {
+                    this._game.moveBlock(0, 1);
+                    this._game.redraw();
+                }
                 break;
             case 'ArrowLeft':
-                this._game.moveBlock(-1, 0);
-                this._game.redraw();
+                if (this._isRunning) {
+                    this._game.moveBlock(-1, 0);
+                    this._game.redraw();
+                }
                 break;
             case 'ArrowRight':
-                this._game.moveBlock(1, 0);
-                this._game.redraw();
+                if (this._isRunning) {
+                    this._game.moveBlock(1, 0);
+                    this._game.redraw();
+                }
                 break;
             case 'Space':
-                this._game.moveDown();
-                this._game.redraw();
+                if (this._isRunning) {
+                    this._game.moveDown();
+                    this._game.redraw();
+                }
                 break;
             case 'KeyP':
                 if (this._isRunning) {
