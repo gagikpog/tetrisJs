@@ -48,7 +48,7 @@ export function canMove(map, blockMap, startX, startY) {
  */
 export function drawItem(ctx, x, y, size) {
 
-    const offset = size * 0.26;
+    const offset = size > 30 ? size * 0.26 : size * 0.30;
     ctx.beginPath();
     ctx.moveTo(x + offset, y + offset);
     ctx.lineTo(x + offset, y + size - offset);

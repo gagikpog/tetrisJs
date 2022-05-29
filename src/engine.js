@@ -100,19 +100,39 @@ export class Engine {
 
     /**
      * @private
-     * @returns {{ width: number, height: number }}
+     * @returns {{ width: number, height: number, mobileView: boolean }}
      */
     _getDisplaySize() {
-        const height = window.innerHeight - 10;
-        const width = height * 0.5;
-        return { width, height };
+
+        const mobileView = window.innerHeight > window.innerWidth * 1.5;
+
+        const offset = 20;
+        const baseHeight = (window.innerHeight - offset - (mobileView ? 110 : 0)) / 20;
+        const baseWidth = (window.innerWidth - offset) / 10;
+
+        const size = Math.min(baseHeight, baseWidth);
+
+        const height = size * 20;
+        const width = size * 10;
+
+        return { width, height, mobileView };
     }
 
     /**
      * @private
      */
     _resizeHandler() {
-        const { width, height } = this._getDisplaySize()
+        const { width, height, mobileView } = this._getDisplaySize();
+
+        const gameNode = document.querySelector('.game');
+        const hasClass = gameNode?.classList.contains('mobile');
+
+        if (!hasClass && mobileView) {
+            gameNode?.classList.add('mobile');
+        } else if (hasClass && !mobileView) {
+            gameNode?.classList.remove('mobile');
+        }
+
         this._game.setSize(width, height);
         this._game.redraw();
     }

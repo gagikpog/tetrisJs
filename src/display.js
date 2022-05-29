@@ -40,7 +40,7 @@ export class Display {
      */
     draw(map, block) {
         const size = (this._ctx.canvas.height - map.length) / map.length;
-        this._initStyles();
+        this._initStyles(size);
         this._drawBackground(map, block.getMap(), size);
         this._drawMap(this._ctx, map, size, true);
         this._drawBlock(block, size);
@@ -81,7 +81,7 @@ export class Display {
         map.forEach((row, y) => {
             row.forEach((item, x) => {
                 if (drawAll || item === visible) {
-                    drawItem(ctx, offsetX + x * size + x + 2, offsetY + y * size + y + 2, size);
+                    drawItem(ctx, offsetX + x * size + x, offsetY + y * size + y, size);
                 }
             });
         });
@@ -106,21 +106,27 @@ export class Display {
         this._drawMap(this._blockBackCtx, block, size, true, 0, 0, true);
     }
 
-    _initStyles() {
+    /**
+     * 
+     * @param { number} size
+     */
+    _initStyles(size) {
 
-        this._ctx.lineWidth = 4;
+        const lineWidth = Math.trunc(size / 10) || 1;
+
+        this._ctx.lineWidth = lineWidth;
         this._ctx.fillStyle = '#000';
         this._ctx.strokeStyle = '#000';
 
-        this._blockCtx.lineWidth = 4;
+        this._blockCtx.lineWidth = lineWidth;
         this._blockCtx.fillStyle = '#000';
         this._blockCtx.strokeStyle = '#000';
 
-        this._backingCtx.lineWidth = 4;
+        this._backingCtx.lineWidth = lineWidth;
         this._backingCtx.fillStyle = '#8b9876';
         this._backingCtx.strokeStyle = '#8b9876';
 
-        this._blockBackCtx.lineWidth = 4;
+        this._blockBackCtx.lineWidth = lineWidth;
         this._blockBackCtx.fillStyle = '#8b9876';
         this._blockBackCtx.strokeStyle = '#8b9876';
     }
