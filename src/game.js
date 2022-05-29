@@ -17,6 +17,12 @@ export class Game {
     /** @private @type { number } */
     _clearedRowsCount = 0;
 
+    /** @private @type { number } */
+    _points = 0;
+
+    /** @private @type { Block } */
+    _nextBlock = new Block(getRandomBlock());
+
     /**
      * @param {{ display: Display, width?: number, height?: number }} options
      */
@@ -27,10 +33,26 @@ export class Game {
     }
 
     /**
+     * 
+     * @param {Function} callback 
+     */
+    setGameOverCallback(callback) {
+        this._gameOverCallback = callback;
+    }
+
+    /**
      * @private
      */
     _addBlock() {
-        this._block = new Block(getRandomBlock());
+        this._block = this._nextBlock;
+        this._nextBlock =  new Block(getRandomBlock());
+        const move = canMove(this._map, this._block.getMap(), this._block.x, this._block.y);
+        if (!move) {
+            // game over
+            if (this._gameOverCallback) {
+                this._gameOverCallback()
+            }
+        }
     }
 
     /**
@@ -42,7 +64,33 @@ export class Game {
         if (!this.moveBlock(offsetX, offsetY)) {
             copyToMap(this._map, this._block);
             this._addBlock();
+            this._updateMenu();
         }
+    }
+
+    /**
+     * @param {number} removedCount 
+     */
+    _updateScore(removedCount) {
+        this._clearedRowsCount += removedCount;
+        this._points += {
+            1: 40,
+            2: 100,
+            3: 300,
+            4: 2400
+        }[removedCount] || 0;
+    }
+
+    /**
+     * @private
+     */
+    _updateMenu() {
+        this._display.updateMenu({
+            points: this._points,
+            cleans: this._clearedRowsCount,
+            level: 1,
+            block: this._nextBlock
+        });
     }
 
     /**
@@ -58,15 +106,22 @@ export class Game {
             this._moveBlock(0, 1);
         } else {
             this._addBlock();
+            this._updateMenu();
         }
-        this._clearedRowsCount += clearFullRows(this._map);
+
+        const removedCount = clearFullRows(this._map);
+        if (removedCount) {
+            this._updateScore(removedCount);
+            this._updateMenu();
+        }
 
         this.redraw();
     }
 
     redraw() {
         this._display.clear();
-        this._display.draw(this._map, this._block);
+        this._display.draw(this._map, this._block || this._nextBlock);
+        this._updateMenu();
     }
 
     /**

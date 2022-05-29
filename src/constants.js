@@ -24,7 +24,7 @@ export const blocksMap = {
             [false, false, false, false, false]
         ],
         x: 2,
-        y: -3,
+        y: -2,
         rotate: RotateType.clockwiseBack,
         isRotated: false
     },

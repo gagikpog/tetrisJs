@@ -24,6 +24,11 @@ export class Engine {
 
         this._resizeHandler = this._resizeHandler.bind(this);
         window.addEventListener('resize', this._resizeHandler, true);
+
+        this._game.setGameOverCallback(() => {
+            this.stop();
+        });
+
         this._resizeHandler();
     }
 
@@ -109,6 +114,7 @@ export class Engine {
     _resizeHandler() {
         const { width, height } = this._getDisplaySize()
         this._game.setSize(width, height);
+        this._game.redraw();
     }
 
 }

@@ -25,7 +25,7 @@ main {
 
 .display-game {
     display: flex;
-    padding: 5px;
+    padding: 3px;
     background-color: var(--background-color);
 }
 
@@ -42,6 +42,13 @@ main {
 #display {
     z-index: 1;
     border: 2px solid black;
+}
+
+#block-display {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
 }
 
 .game {
