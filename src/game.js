@@ -45,6 +45,14 @@ export class Game {
         }
     }
 
+    /**
+     * @param { number } width
+     * @param { number } height
+     */
+    setSize(width, height) {
+        this._display.setSize(width, height);
+    }
+
     step() {
         if (this._block) {
             this._moveBlock(0, 1);

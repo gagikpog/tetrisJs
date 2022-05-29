@@ -3,6 +3,15 @@
     padding: 0;
 }
 
+@font-face {
+    font-family: 'digital-7';
+    src: url('/src/fonts/digital/digital-7.ttf');
+}
+
+:root {
+    --background-color: #97a580;
+}
+
 html, body, main {
     height: 100%;
     background-color: #2e2e2e;
@@ -14,6 +23,49 @@ main {
     justify-content: center;
 }
 
-canvas {
-    background-color: #97a580;
+.display-game {
+    display: flex;
+    padding: 5px;
+    background-color: var(--background-color);
+}
+
+.display-menu {
+    background-color: var(--background-color);
+    padding: 10px;
+}
+
+#backing {
+    position: absolute;
+    background-color: var(--background-color);
+}
+
+#display {
+    z-index: 1;
+    border: 2px solid black;
+}
+
+.game {
+    display: flex;
+}
+
+.info-title {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.info-value-wrapper {
+    display: inline-block;
+    font-family: "digital-7";
+    font-size: 45px;
+    position: relative;
+}
+
+.info-value-background {
+    color: #8b9876;
+}
+
+.info-value {
+    position: absolute;
+    top: 0;
+    right: 0;
 }

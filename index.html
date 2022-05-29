@@ -9,7 +9,46 @@
 </head>
 <body>
     <main>
-        <canvas id="display"></canvas>
+        <div class="game">
+            <div class="display-game">
+                <canvas id="backing"></canvas>
+                <canvas id="display"></canvas>
+            </div>
+            <div class="display-menu">
+                <div class="info-panel">
+                    <div class="info-row">
+                        <div class="info-title">Points</div>
+                        <div class="info-value-wrapper">
+                            <div class="info-value-background">888888</div>
+                            <div class="info-value" id="points">0</div>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-title">Cleans</div>
+                        <div class="info-value-wrapper">
+                            <div class="info-value-background">888888</div>
+                            <div class="info-value" id="cleans">0</div>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-title">Level</div>
+                        <div class="info-value-wrapper">
+                            <div class="info-value-background">888888</div>
+                            <div class="info-value" id="level">1</div>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-title">Next</div>
+                        <canvas id="block-display"></canvas>
+                    </div>
+                </div>
+                <div class="info-footer">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
     </main>
     <script src="./main.js" type="module"></script>
 </body>

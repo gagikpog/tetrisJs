@@ -21,6 +21,10 @@ export class Engine {
 
         this._keyPressHandler = this._keyPressHandler.bind(this);
         document.addEventListener('keydown', this._keyPressHandler)
+
+        this._resizeHandler = this._resizeHandler.bind(this);
+        window.addEventListener('resize', this._resizeHandler, true);
+        this._resizeHandler();
     }
 
     run() {
@@ -87,6 +91,24 @@ export class Engine {
                 this._game.redraw();
                 break;
         }
+    }
+
+    /**
+     * @private
+     * @returns {{ width: number, height: number }}
+     */
+    _getDisplaySize() {
+        const height = window.innerHeight - 10;
+        const width = height * 0.5;
+        return { width, height };
+    }
+
+    /**
+     * @private
+     */
+    _resizeHandler() {
+        const { width, height } = this._getDisplaySize()
+        this._game.setSize(width, height);
     }
 
 }
