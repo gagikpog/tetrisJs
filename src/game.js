@@ -1,9 +1,12 @@
 import { Block } from "./block.js";
 import { RotateType } from "./constants.js";
 import { Display } from "./display.js";
-import { copyToMap, canMove, rotate, getRandomBlock, clearFullRows } from './functions.js';
+import { copyToMap, canMove, rotate, getRandomBlock, clearFullRows, getLevel } from './functions.js';
 
 export class Game {
+
+    /** @type { number } */
+    level = 1;
 
     /** @private @type { Display } */
     _display;
@@ -85,12 +88,23 @@ export class Game {
      * @private
      */
     _updateMenu() {
+        const time = this.getTime();
+        this.level = getLevel(time);
         this._display.updateMenu({
             points: this._points,
             cleans: this._clearedRowsCount,
-            level: 1,
-            block: this._nextBlock
+            level: this.level,
+            block: this._nextBlock,
+            time
         });
+    }
+
+    setTimeCallback(callback) {
+        this.getTime = callback;
+    }
+
+    getTime() {
+        return 0;
     }
 
     /**

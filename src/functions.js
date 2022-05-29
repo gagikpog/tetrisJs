@@ -145,3 +145,28 @@ export function clearFullRows(map) {
 
     return removedCount;
 }
+
+export function isTouchDevice() {
+    return (('ontouchstart' in window) ||
+        (navigator.maxTouchPoints > 0) ||
+        (navigator.msMaxTouchPoints > 0));
+}
+
+/**
+ * @param {number} time
+ * @returns { number }
+ */
+export function getLevel(time) {
+    return Math.trunc(time * 1 / 60) + 1;
+}
+
+const maxLevel = 200;
+const maxInterval = Math.log(maxLevel) * 100;
+
+/**
+ * @param {number} level
+ * @returns { number }
+ */
+export function getInterval(level) {
+    return level < maxLevel ? maxInterval - Math.log(level) * 100 : 0;
+}

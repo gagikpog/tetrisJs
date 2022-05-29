@@ -1,16 +1,24 @@
 
+import { getInterval, isTouchDevice } from "./functions.js";
 import { Game } from "./game.js";
+import { Swipe } from "./swipe.js";
 
 export class Engine {
 
     /** @private @type { number } */
     _intervalIndex;
 
+    /** @private @type { number } */
+    _timeoutIndex;
+
     /** @private @type { boolean } */
     _isRunning;
 
     /** @private @type { Game } */
     _game;
+
+    /** @private @type { number } */
+    _time = 0;
 
     /**
      * @param {{ game: Game }} options
@@ -19,14 +27,47 @@ export class Engine {
         const { game } = options;
         this._game = game;
 
-        this._keyPressHandler = this._keyPressHandler.bind(this);
-        document.addEventListener('keydown', this._keyPressHandler)
+        if (isTouchDevice()) {
+            const swipe = new Swipe('#display');
+            swipe
+                .onLeft(() => this._runCommand('ArrowLeft'))
+                .onRight(() => this._runCommand('ArrowRight'))
+                .onDown(() => this._runCommand('Space'))
+                .onTouch(() => this._runCommand('ArrowUp'));
+
+        } else {
+            this._keyPressHandler = this._keyPressHandler.bind(this);
+            document.addEventListener('keydown', this._keyPressHandler);
+        }
 
         this._resizeHandler = this._resizeHandler.bind(this);
         window.addEventListener('resize', this._resizeHandler, true);
 
         this._game.setGameOverCallback(() => {
             this.stop();
+        });
+
+        this._game.setTimeCallback(() => this._time);
+
+        const pauseBtn = document.querySelector('#btn-pause');
+
+        pauseBtn?.addEventListener('click', () => {
+            if (this._isRunning) {
+                this.stop();
+                pauseBtn.innerHTML = 'play_arrow';
+            } else {
+                this.run();
+                pauseBtn.innerHTML = 'pause';
+            }
+        });
+
+        const volumeBtn = document.querySelector('#btn-volume');
+        volumeBtn?.addEventListener('click', () => {
+            if (volumeBtn.innerHTML === 'volume_up') {
+                volumeBtn.innerHTML = 'volume_off';
+            } else {
+                volumeBtn.innerHTML = 'volume_up';
+            }
         });
 
         this._resizeHandler();
@@ -36,18 +77,26 @@ export class Engine {
         if (!this._isRunning) {
             this._isRunning = true;
             this._intervalIndex = setInterval(() => {
-                this._step();
-            }, 500);
+                this._time++;
+            }, 1000);
+            this._step();
         }
     }
 
     stop() {
         clearInterval(this._intervalIndex);
+        clearTimeout(this._timeoutIndex);
         this._isRunning = false;
     }
 
     _step() {
         this._game.step();
+        const interval = getInterval(this._game.level);
+        this._timeoutIndex = setTimeout(() => {
+            if (this._isRunning) {
+                this._step();
+            }
+        }, interval);
     }
 
     /**
@@ -55,8 +104,14 @@ export class Engine {
      * @param { KeyboardEvent } event
      */
     _keyPressHandler(event) {
+        this._runCommand(event.code);
+    }
 
-        switch(event.code) {
+    /**
+     * @param { string } command
+     */
+    _runCommand(command) {
+        switch(command) {
             case 'ArrowUp':
                 if (this._isRunning) {
                     this._game.rotate();

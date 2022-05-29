@@ -35,6 +35,7 @@ main {
 .display-menu {
     background-color: var(--background-color);
     padding: 10px;
+    position: relative;
 }
 
 #backing {
@@ -109,4 +110,18 @@ main {
     position: absolute;
     top: 0;
     right: 0;
+}
+
+.info-footer {
+    display: flex;
+    align-items: center;
+}
+
+.menu-sound, .menu-pause {
+    cursor: pointer;
+}
+
+.game:not(.mobile) .info-footer {
+    position: absolute;
+    bottom: 10px;
 }

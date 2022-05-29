@@ -15,7 +15,7 @@ export class Display {
     /** @private @type { CanvasRenderingContext2D } */
     _blockBackCtx;
 
-    /** @private @type { { points: HTMLElement | null, cleans: HTMLElement | null, level: HTMLElement | null } } */
+    /** @private @type { { points: HTMLElement | null, cleans: HTMLElement | null, level: HTMLElement | null, time: HTMLElement | null } } */
     _fields;
 
     /**
@@ -30,7 +30,8 @@ export class Display {
         this._fields = {
             points: document.querySelector('#points'),
             cleans: document.querySelector('#cleans'),
-            level: document.querySelector('#level')
+            level: document.querySelector('#level'),
+            time: document.querySelector('#game-time')
         };
     }
 
@@ -132,17 +133,24 @@ export class Display {
     }
 
     /**
-     * @param { {points: number, cleans: number, level: number, block: Block} } data
+     * @param { {points: number, cleans: number, level: number, block: Block, time: number} } data
      */
     updateMenu(data) {
         if (this._fields.points) {
             this._fields.points.innerText = `${data.points}`;
         }
+
         if (this._fields.cleans) {
             this._fields.cleans.innerText = `${data.cleans}`;
         }
+
         if (this._fields.level) {
             this._fields.level.innerText = `${data.level}`;
+        }
+
+        if (this._fields.time) {
+            const time = `${String(Math.trunc(data.time / 60)).padStart(2, '0')}:${String(data.time % 60).padStart(2, '0')}`;
+            this._fields.time.innerText = time;
         }
 
         if (this._blockCtx && data.block) {

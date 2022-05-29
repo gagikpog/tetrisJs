@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="main.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Tetris</title>
 </head>
 <body>
@@ -17,6 +18,23 @@
             <div class="display-menu">
                 <div class="info-panel">
                     <div class="info-panel-left">
+                        <div class="info-footer info-row">
+                            <div class="menu-sound">
+                                <i id="btn-pause" class="material-icons">pause</i>
+                                <!-- <i class="material-icons">play_arrow</i> -->
+                            </div>
+                            <div class="menu-pause">
+                                <i id="btn-volume" class="material-icons">volume_up</i>
+                                <!-- <i class="material-icons">volume_off</i> -->
+                            </div>
+                            <div class="menu-time">
+                                <div class="info-value-wrapper">
+                                    <div class="info-value-background">88:88</div>
+                                    <div class="info-value" id="game-time">00:00</div>
+                                </div>
+                            </div>
+
+                        </div>
                         <div class="info-row">
                             <div class="info-title">Points</div>
                             <div class="info-value-wrapper">
@@ -39,18 +57,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="info-row">
-                        <div class="info-title">Next</div>
-                        <div class="info-display">
-                            <canvas id="block-display-background"></canvas>
-                            <canvas id="block-display"></canvas>
+                    <div>
+                        <div class="info-row">
+                            <div class="info-title">Next</div>
+                            <div class="info-display">
+                                <canvas id="block-display-background"></canvas>
+                                <canvas id="block-display"></canvas>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="info-footer">
-                    <div></div>
-                    <div></div>
-                    <div></div>
                 </div>
             </div>
         </div>
