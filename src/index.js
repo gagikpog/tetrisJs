@@ -1,6 +1,7 @@
-import { Display } from "./src/display.js";
-import { Engine } from "./src/engine.js";
-import { Game } from "./src/game.js";
+import '@/styles/index.scss';
+import { Display } from "./js/display.js";
+import { Engine } from "./js/engine.js";
+import { Game } from "./js/game.js";
 
 const canvas = document.querySelector('#display');
 const backing = document.querySelector('#backing');
