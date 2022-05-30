@@ -45,6 +45,7 @@ main {
 
 #display {
     z-index: 1;
+    touch-action: manipulation;
     border: 2px solid black;
 }
 

@@ -25,6 +25,7 @@ export class Swipe {
 
         this._element = document.querySelector(element);
         this._element.addEventListener('touchstart', (evt) => {
+            evt.preventDefault();
             this._xDown = evt.touches[0]?.clientX;
             this._yDown = evt.touches[0]?.clientY;
         }, false);
