@@ -18,3 +18,7 @@ const display = new Display({ ctx, backingCtx, blockCtx, blockBackCtx });
 const game = new Game({display});
 const engine = new Engine({game});
 engine.run();
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js');
+}
