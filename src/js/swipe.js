@@ -18,6 +18,24 @@ export class Swipe {
     /** @private @type { HTMLElement } */
     _element;
 
+    /** @private @type { 'left|right' | 'none' | null } */
+    _direction;
+
+    /** @private */
+    _onTouchHandler() {}
+
+    /** @private */
+    _onUpHandler() {}
+
+    /** @private */
+    _onRightHandler() {}
+
+    /** @private */
+    _onDownHandler() {}
+
+    /** @private */
+    _onLeftHandler() {}
+
     /**
      * @param { string } element
      */
@@ -36,36 +54,36 @@ export class Swipe {
 
         this._element.addEventListener('touchend', (evt) => {
             if (!this._xDiff && !this._yDiff) {
-                this.onTouch();
+                this._onTouchHandler();
             }
             this._xDiff = this._yDiff = this._xDown = this._yDown = 0;
+            this._direction = null;
         }, false);
-
 
     }
 
     onTouch(callback) {
-        this.onTouch = callback;
+        this._onTouchHandler = callback;
         return this;
     }
 
     onLeft(callback) {
-        this.onLeft = callback;
+        this._onLeftHandler = callback;
         return this;
     }
 
     onRight(callback) {
-        this.onRight = callback;
+        this._onRightHandler = callback;
         return this;
     }
 
     onUp(callback) {
-        this.onUp = callback;
+        this._onUpHandler = callback;
         return this;
     }
 
     onDown(callback) {
-        this.onDown = callback;
+        this._onDownHandler = callback;
         return this;
     }
 
@@ -73,7 +91,7 @@ export class Swipe {
      * @param {TouchEvent} evt
      */
     _handleTouchMove(evt) {
-        if (!this._xDown || !this._yDown) {
+        if (!this._xDown || !this._yDown || this._direction === 'none') {
             return;
         }
 
@@ -83,21 +101,28 @@ export class Swipe {
         this._xDiff = this._xDown - xUp;
         this._yDiff = this._yDown - yUp;
 
-        if (Math.abs(this._xDiff) > Math.abs(this._yDiff)) {
-            if (this._xDiff > 0) {
-                this.onLeft();
-            } else {
-                this.onRight();
-            }
-        } else {
-            if (this._yDiff > 0) {
-                this.onUp();
-            } else {
-                this.onDown();
-            }
-        }
+        const delta = Math.sqrt(Math.pow(this._xDiff, 2) + Math.pow(this._yDiff, 2));
 
-        this._xDown = 0;
-        this._yDown = 0;
+        if (delta > 30) {
+            if (Math.abs(this._xDiff) > Math.abs(this._yDiff)) {
+                if (this._xDiff > 0) {
+                    this._onLeftHandler();
+                } else {
+                    this._onRightHandler();
+                }
+                this._direction = 'left|right';
+            } else {
+                if (!this._direction) {
+                    this._direction = 'none';
+                    if (this._yDiff > 0) {
+                        this._onUpHandler();
+                    } else {
+                        this._onDownHandler();
+                    }
+                }
+            }
+            this._xDown = xUp;
+            this._yDown = yUp;
+        }
     }
 }
