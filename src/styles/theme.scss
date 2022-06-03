@@ -1,0 +1,17 @@
+@media (prefers-color-scheme: dark) {
+    :root {
+        --game-background-color: #97a580;
+        --background-color: #2e2e2e;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --game-background-color: #97a580;
+        --background-color: #dbdbdb;
+    }
+}
+
+.mobile {
+    --background-color: var(--game-background-color);
+}

@@ -179,7 +179,7 @@ export class Engine {
     _resizeHandler() {
         const { width, height, mobileView } = this._getDisplaySize();
 
-        const gameNode = document.querySelector('.game');
+        const gameNode = document.body;
         const hasClass = gameNode?.classList.contains('mobile');
 
         if (!hasClass && mobileView) {

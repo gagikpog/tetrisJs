@@ -1,0 +1,41 @@
+.info-title {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.info-value-wrapper {
+    display: inline-block;
+    font-family: "digital-7";
+    font-size: 45px;
+    position: relative;
+}
+
+.info-display {
+    position: relative;
+    margin: 0 10px 0 -10px;
+}
+
+.info-value-background {
+    color: #8b9876;
+}
+
+.info-value {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.info-footer {
+    display: flex;
+    align-items: center;
+}
+
+.menu-sound,
+.menu-pause {
+    cursor: pointer;
+}
+
+body:not(.mobile) .info-footer {
+    position: absolute;
+    bottom: 10px;
+}

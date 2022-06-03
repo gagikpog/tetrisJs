@@ -1,0 +1,41 @@
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.display-game {
+    display: flex;
+    padding: 3px;
+    background-color: var(--game-background-color);
+    align-items: center;
+    justify-content: center;
+}
+
+.display-menu {
+    background-color: var(--game-background-color);
+    padding: 10px;
+    position: relative;
+}
+
+#backing {
+    position: absolute;
+    background-color: var(--game-background-color);
+}
+
+#display {
+    z-index: 1;
+    touch-action: manipulation;
+    border: 2px solid black;
+}
+
+#block-display {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
+
+.game {
+    display: flex;
+}
