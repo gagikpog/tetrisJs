@@ -2,6 +2,7 @@
 import { showGameOverDialog, showPauseDialog } from "./dialogs.js";
 import { getInterval, isTouchDevice } from "./functions.js";
 import { Game } from "./game.js";
+import { saveState } from "./state.js";
 import { Swipe } from "./swipe.js";
 
 export class Engine {
@@ -28,8 +29,11 @@ export class Engine {
      * @param {{ game: Game }} options
      */
     constructor(options) {
-        const { game } = options;
+        const { game, state } = options;
         this._game = game;
+        if (state) {
+            this._applyState(state);
+        }
 
         if (isTouchDevice()) {
             const swipe = new Swipe('#display');
@@ -73,13 +77,38 @@ export class Engine {
         this._resizeHandler();
     }
 
+    getState() {
+        return {
+            game: this._game.getState(),
+            time: this._time,
+            isRunning: this._isRunning,
+            isGameOver: this._isGameOver
+        };
+    }
+
+    /**
+     * @private
+     * @param {*} state
+     */
+    _applyState(state) {
+        this._time = state.time;
+        this._isGameOver = state.isGameOver;
+        this._loadFromState = true;
+        this._isRunning = true;
+    }
+
     run() {
-        if (!this._isRunning) {
-            this._isRunning = true;
-            this._intervalIndex = setInterval(() => {
-                this._time++;
-            }, 1000);
-            this._step();
+        if (this._loadFromState) {
+            this._loadFromState = false;
+            this._runCommand('pause');
+        } else {
+            if (!this._isRunning) {
+                this._isRunning = true;
+                this._intervalIndex = setInterval(() => {
+                    this._time++;
+                }, 1000);
+                this._step();
+            }
         }
     }
 
@@ -91,6 +120,7 @@ export class Engine {
 
     _step() {
         this._game.step();
+        saveState(this.getState());
         const interval = getInterval(this._game.level);
         this._timeoutIndex = setTimeout(() => {
             if (this._isRunning) {

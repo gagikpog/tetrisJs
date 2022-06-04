@@ -36,11 +36,44 @@ export class Game {
      * @param {{ display: Display, width?: number, height?: number }} options
      */
     constructor(options) {
-        const { width = 10, height = 20, display } = options;
+        const { width = 10, height = 20, display, state } = options;
         this._width = width;
         this._height = height;
         this._display = display;
-        this.newGame();
+
+        if (state) {
+            this._applyState(state);
+        } else{
+            this.newGame();
+        }
+    }
+
+    getState() {
+        return {
+            width: this._width,
+            height: this._height,
+            map: this._map,
+            block: this._block.getState(),
+            nextBlock: this._nextBlock.getState(),
+            points: this._points,
+            clearedRowsCount: this._clearedRowsCount,
+            level: this.level
+        };
+    }
+
+    /**
+     * @private
+     * @param {*} state
+     */
+    _applyState(state) {
+        this._width = state.width;
+        this._height = state.height;
+        this.level = state.level;
+        this._map = state.map;
+        this._clearedRowsCount = state.clearedRowsCount;
+        this._points = state.points;
+        this._block = new Block(null, state.block);
+        this._nextBlock = new Block(null, state.nextBlock);
     }
 
     /**
