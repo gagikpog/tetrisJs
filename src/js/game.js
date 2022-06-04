@@ -5,6 +5,12 @@ import { copyToMap, canMove, rotate, getRandomBlock, clearFullRows, getLevel } f
 
 export class Game {
 
+    /** @private @type { number } */
+    _width;
+
+    /**  @private @type { number } */
+    _height;
+
     /** @type { number } */
     level = 1;
 
@@ -31,8 +37,10 @@ export class Game {
      */
     constructor(options) {
         const { width = 10, height = 20, display } = options;
+        this._width = width;
+        this._height = height;
         this._display = display;
-        this._map = Array(height).fill(null).map(() => Array(width).fill(false));
+        this.newGame();
     }
 
     /**
@@ -48,7 +56,7 @@ export class Game {
      */
     _addBlock() {
         this._block = this._nextBlock;
-        this._nextBlock =  new Block(getRandomBlock());
+        this._nextBlock = new Block(getRandomBlock());
         const move = canMove(this._map, this._block.getMap(), this._block.x, this._block.y);
         if (!move) {
             // game over
@@ -97,6 +105,15 @@ export class Game {
             block: this._nextBlock,
             time
         });
+    }
+
+    newGame() {
+        this._map = Array(this._height).fill(null).map(() => Array(this._width).fill(false));
+        this.level = 1;
+        this._clearedRowsCount = 0;
+        this._points = 0;
+        this._block = new Block(getRandomBlock());
+        this._nextBlock = new Block(getRandomBlock());
     }
 
     setTimeCallback(callback) {

@@ -1,0 +1,35 @@
+dialog {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    border-width: 1px;
+    padding: 10px;
+    background-color: var(--game-background-color);
+
+    button {
+        &:focus-visible {
+            outline: none;
+            background-color: #d3d3d3;
+        }
+
+        padding: 6px;
+        margin: 0 5px;
+        background-color: #dddddd;
+        border: none;
+    }
+}
+
+.dialog {
+    &-header {
+        font-size: 36px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    &-body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+    }
+}

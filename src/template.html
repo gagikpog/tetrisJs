@@ -70,6 +70,20 @@
             </div>
         </div>
     </main>
-    <!-- <script src="./main.js" type="module"></script> -->
+    <div class="popups">
+        <dialog id="pauseDialog">
+            <div class="dialog-header">Paused</div>
+            <div class="dialog-body">
+                <button data-command="pause"> Resume </button>
+                <button data-command="newGame"> New game </button>
+            </div>
+        </dialog>
+        <dialog id="gameOverDialog">
+            <div class="dialog-header">Game over</div>
+            <div class="dialog-body">
+                <button data-command="newGame"> New game </button>
+            </div>
+        </dialog>
+    </div>
 </body>
 </html>

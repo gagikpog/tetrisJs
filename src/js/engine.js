@@ -1,4 +1,5 @@
 
+import { showGameOverDialog, showPauseDialog } from "./dialogs.js";
 import { getInterval, isTouchDevice } from "./functions.js";
 import { Game } from "./game.js";
 import { Swipe } from "./swipe.js";
@@ -13,6 +14,9 @@ export class Engine {
 
     /** @private @type { boolean } */
     _isRunning;
+
+    /** @private @type { boolean } */
+    _isGameOver = false;
 
     /** @private @type { Game } */
     _game;
@@ -45,20 +49,16 @@ export class Engine {
 
         this._game.setGameOverCallback(() => {
             this.stop();
+            this._isGameOver = true;
+            showGameOverDialog().then((command) => this._runCommand(command));
         });
 
         this._game.setTimeCallback(() => this._time);
 
-        const pauseBtn = document.querySelector('#btn-pause');
+        this._pauseBtn = document.querySelector('#btn-pause');
 
-        pauseBtn?.addEventListener('click', () => {
-            if (this._isRunning) {
-                this.stop();
-                pauseBtn.innerHTML = 'play_arrow';
-            } else {
-                this.run();
-                pauseBtn.innerHTML = 'pause';
-            }
+        this._pauseBtn?.addEventListener('click', () => {
+            this._runCommand('pause');
         });
 
         const volumeBtn = document.querySelector('#btn-volume');
@@ -142,13 +142,27 @@ export class Engine {
                     this._game.redraw();
                 }
                 break;
+            case 'pause':
             case 'KeyP':
                 if (this._isRunning) {
                     this.stop();
+                    this._pauseBtn.innerHTML = 'play_arrow';
+                    showPauseDialog().then((command) => this._runCommand(command));
                 } else {
-                    this.run();
+                    if (!this._isGameOver) {
+                        this.run();
+                        this._pauseBtn.innerHTML = 'pause';
+                    }
                 }
                 this._game.redraw();
+                break;
+            case 'KeyN':
+            case 'newGame':
+                this._time = 0;
+                this._isGameOver = false;
+                this._game.newGame()
+                this._game.redraw();
+                this.run();
                 break;
         }
     }
