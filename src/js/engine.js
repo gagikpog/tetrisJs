@@ -177,7 +177,11 @@ export class Engine {
                 if (this._isRunning) {
                     this.stop();
                     this._pauseBtn.innerHTML = 'play_arrow';
-                    showPauseDialog().then((command) => this._runCommand(command));
+                    if (this._isGameOver) {
+                        showGameOverDialog().then((command) => this._runCommand(command));
+                    } else {
+                        showPauseDialog().then((command) => this._runCommand(command));
+                    }
                 } else {
                     if (!this._isGameOver) {
                         this.run();
