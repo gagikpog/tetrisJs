@@ -66,12 +66,12 @@ export class Game {
      * @param {*} state
      */
     _applyState(state) {
-        this._width = state.width;
-        this._height = state.height;
-        this.level = state.level;
-        this._map = state.map;
+        this._width = state.width ?? this._width;
+        this._height = state.height ?? this._height;
+        this.level = state.level ?? this.level;
+        this._map = state.map ?? this._map;
         this._clearedRowsCount = state.clearedRowsCount;
-        this._points = state.points;
+        this._points = state.points ?? this._points;
         this._block = new Block(null, state.block);
         this._nextBlock = new Block(null, state.nextBlock);
     }

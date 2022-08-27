@@ -91,8 +91,8 @@ export class Engine {
      * @param {*} state
      */
     _applyState(state) {
-        this._time = state.time;
-        this._isGameOver = state.isGameOver;
+        this._time = state.time ?? this._time;
+        this._isGameOver = state.isGameOver ?? this._isGameOver;
         this._loadFromState = true;
         this._isRunning = true;
     }
