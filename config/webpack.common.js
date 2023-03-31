@@ -42,6 +42,16 @@ module.exports = {
           to: '',
           noErrorOnMissing: true,
         },
+        {
+          from: paths.src + '/sitemap.xml',
+          to: '',
+          noErrorOnMissing: true,
+        },
+        {
+          from: paths.src + '/robots.txt',
+          to: '',
+          noErrorOnMissing: true,
+        },
       ],
     }),
 
