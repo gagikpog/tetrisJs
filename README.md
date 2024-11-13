@@ -1,5 +1,7 @@
 # Tetris
 
+### [Play tetris online](https://tetris.gagikpog.ru/)
+
 ## Installation
 
 Clone this repo and npm install.
