@@ -1,13 +1,13 @@
 {
-  "name": "Тетрис",
-  "short_name": "Тетрис",
+  "name": "Tetris",
+  "short_name": "Tetris",
   "theme_color": "#2e2e2e",
   "background_color": "#2e2e2e",
   "display": "standalone",
   "orientation": "natural",
   "categories": ["entertainment"],
   "scope": "/",
-  "start_url": "/",
+  "start_url": "/en/",
   "icons": [
     {
       "src": "assets/icons/icon-48x48.png",

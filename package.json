@@ -7,8 +7,9 @@
   "license": "MIT",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack serve --config config/webpack.dev.js",
-    "build": "cross-env NODE_ENV=production webpack --config config/webpack.prod.js",
+    "build": "cross-env NODE_ENV=production webpack --config config/webpack.prod.js & npm run gulp",
     "lint": "eslint 'src/**/*.js' || true",
+    "gulp": "gulp",
     "prettify": "prettier --write 'src/**/*.js'"
   },
   "devDependencies": {
@@ -36,7 +37,9 @@
     "webpack": "^5.96.1",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.15.2",
-    "webpack-merge": "^5.10.0"
+    "webpack-merge": "^5.10.0",
+    "gulp": "^5.0.0",
+    "gulp-string-replace": "^1.1.2"
   },
   "repository": {
     "type": "git",

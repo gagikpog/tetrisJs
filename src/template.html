@@ -1,20 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Classic Tetris Online - Play free</title>
+    <title>Классический тетрис онлайн — играйте бесплатно</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="yandex-verification" content="dcdcd457fb53fada" />
     <meta name="google-site-verification" content="-FBEZCX9HvkJukBI3Zg3qUiql7Z85yLF7WQvrWY2WFc" />
-    <meta name="description" content="Classic Tetris game online for PC and mobile devices. No download required. Installing PWA on ios or android. Optimized for touch screens" />
+    <meta name="description" content="Классическая игра Тетрис онлайн для ПК и мобильных устройств. Загрузка не требуется. Установка PWA на ios или android. Оптимизировано для сенсорных экранов" />
     <!-- Open Graph -->
-    <meta property="og:title" content="Classic Tetris Online - Play free"/>
-    <meta property="og:description" content="Classic Tetris game online for PC and mobile devices. No download required. Installing PWA on ios or android.  Optimized for touch screens" />
+    <meta property="og:title" content="Классический тетрис онлайн — играйте бесплатно"/>
+    <meta property="og:description" content="Классическая игра Тетрис онлайн для ПК и мобильных устройств. Загрузка не требуется. Установка PWA на ios или android. Оптимизировано для сенсорных экранов" />
     <meta property="og:image" content="/assets/icons/icon-144x144.png" />
     <meta property="og:type" content="games.achieves" />
     <meta property="og:url" content= "https://tetris.gagikpog.ru" />
-    <meta property="og:site_name" content="Classic Tetris Online - Play free" />
+    <meta property="og:site_name" content="Классический тетрис онлайн — играйте бесплатно" />
+
+    <link rel="alternate" hreflang="x-default" href="https://tetris.gagikpog.ru/">
+    <link rel="alternate" hreflang="ru" href="https://tetris.gagikpog.ru/">
+    <link rel="alternate" hreflang="en" href="https://tetris.gagikpog.ru/en/">
 
     <link rel="icon" type="image/png" href="/assets/icons/icon-144x144.png">
 
@@ -48,21 +52,21 @@
 
                         </div>
                         <div class="info-row">
-                            <div class="info-title">Points</div>
+                            <div class="info-title">Очки</div>
                             <div class="info-value-wrapper">
                                 <div class="info-value-background">888888</div>
                                 <div class="info-value" id="points">0</div>
                             </div>
                         </div>
                         <div class="info-row">
-                            <div class="info-title">Cleans</div>
+                            <div class="info-title">Очищено</div>
                             <div class="info-value-wrapper">
                                 <div class="info-value-background">888888</div>
                                 <div class="info-value" id="cleans">0</div>
                             </div>
                         </div>
                         <div class="info-row">
-                            <div class="info-title">Level</div>
+                            <div class="info-title">Уровень</div>
                             <div class="info-value-wrapper">
                                 <div class="info-value-background">888888</div>
                                 <div class="info-value" id="level">1</div>
@@ -71,7 +75,7 @@
                     </div>
                     <div>
                         <div class="info-row">
-                            <div class="info-title">Next</div>
+                            <div class="info-title">Следующее</div>
                             <div class="info-display">
                                 <canvas id="block-display-background"></canvas>
                                 <canvas id="block-display"></canvas>
@@ -84,16 +88,16 @@
     </main>
     <div class="popups">
         <dialog id="pauseDialog">
-            <div class="dialog-header">Paused</div>
+            <div class="dialog-header">Пауза</div>
             <div class="dialog-body">
-                <button data-command="pause"> Resume </button>
-                <button data-command="newGame"> New game </button>
+                <button data-command="pause"> Продолжить </button>
+                <button data-command="newGame"> Новая игра </button>
             </div>
         </dialog>
         <dialog id="gameOverDialog">
-            <div class="dialog-header">Game over</div>
+            <div class="dialog-header">Проигрыш</div>
             <div class="dialog-body">
-                <button data-command="newGame"> New game </button>
+                <button data-command="newGame"> Новая игра </button>
             </div>
         </dialog>
     </div>
