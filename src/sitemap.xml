@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://tetris.gagikpog.ru/</loc>
-    <link rel="alternate" hreflang="ru" href="https://tetris.gagikpog.ru/"/>
-    <link rel="alternate" hreflang="en" href="https://tetris.gagikpog.ru/en/"/>
-    <lastmod>2023-03-31T15:22:37+00:00</lastmod>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://tetris.gagikpog.ru/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tetris.gagikpog.ru/en/"/>
   </url>
 </urlset>
