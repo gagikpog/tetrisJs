@@ -18,7 +18,6 @@ export function copyToMap(map, block) {
 }
 
 /**
- * 
  * @param { boolean[][] } map
  * @param { boolean[][] } blockMap
  * @param { number } startX
@@ -31,7 +30,14 @@ export function canMove(map, blockMap, startX, startY) {
     let x = 0;
     for (y = 0; y < blockMap.length; y++) {
         for (x = 0; x < blockMap[y].length; x++) {
-            if (blockMap[y][x] && map[y + startY]?.[x + startX] !== false) {
+            const isBlockFilled = blockMap[y][x];
+            const isOutFromTop = (y + startY) < 0;
+            const mapRow = map[y + startY];
+            if (isOutFromTop && !mapRow) {
+                continue;
+            }
+
+            if (isBlockFilled && mapRow?.[x + startX] !== false) {
                 return false;
             }
         }
