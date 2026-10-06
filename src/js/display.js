@@ -3,6 +3,12 @@ import { drawItem } from './functions.js'
 
 export class Display {
 
+    // Drawing coordinates stay in CSS pixels; canvas buffers use device pixels.
+    _width = 0;
+    _height = 0;
+    _previewWidth = 0;
+    _previewHeight = 0;
+
     /** @private @type { CanvasRenderingContext2D } */
     _ctx;
 
@@ -40,7 +46,7 @@ export class Display {
      * @param { Block } block
      */
     draw(map, block) {
-        const size = (this._ctx.canvas.height - map.length) / map.length;
+        const size = (this._height - map.length) / map.length;
         this._initStyles(size);
         this._drawBackground(map, block.getMap(), size);
         this._drawMap(this._ctx, map, size, true);
@@ -48,7 +54,7 @@ export class Display {
     }
 
     clear() {
-        this._ctx.clearRect(0, 0, this._ctx.canvas.width, this._ctx.canvas.height);
+        this._ctx.clearRect(0, 0, this._width, this._height);
     }
 
     /**
@@ -56,16 +62,29 @@ export class Display {
      * @param { number } height
      */
     setSize(width, height) {
-        this._ctx.canvas.height = height;
-        this._ctx.canvas.width = width;
-        this._backingCtx.canvas.height = height;
-        this._backingCtx.canvas.width = width;
+        this._width = width;
+        this._height = height;
 
-        const size = (this._ctx.canvas.height - 20) / 20;
-        this._blockCtx.canvas.width = size * 5;
-        this._blockCtx.canvas.height = size * 2;
-        this._blockBackCtx.canvas.width = size * 5;
-        this._blockBackCtx.canvas.height = size * 2;
+        const size = (height - 20) / 20;
+        this._previewWidth = size * 5;
+        this._previewHeight = size * 2;
+
+        const pixelRatio = window.devicePixelRatio || 1;
+        this._resizeCanvas(this._ctx, width, height, pixelRatio);
+        this._resizeCanvas(this._backingCtx, width, height, pixelRatio);
+        this._resizeCanvas(this._blockCtx, this._previewWidth, this._previewHeight, pixelRatio);
+        this._resizeCanvas(this._blockBackCtx, this._previewWidth, this._previewHeight, pixelRatio);
+    }
+
+    /** @private */
+    _resizeCanvas(ctx, width, height, pixelRatio) {
+        const { canvas } = ctx;
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        canvas.width = Math.round(width * pixelRatio);
+        canvas.height = Math.round(height * pixelRatio);
+        // Resizing resets the context. Set the transform without accumulating scale.
+        ctx.setTransform(canvas.width / width, 0, 0, canvas.height / height, 0, 0);
     }
 
     /**
@@ -108,7 +127,7 @@ export class Display {
     }
 
     /**
-     * 
+     *
      * @param { number} size
      */
     _initStyles(size) {
@@ -154,8 +173,8 @@ export class Display {
         }
 
         if (this._blockCtx && data.block) {
-            const size = this._blockCtx.canvas.height / 2;
-            this._blockCtx.clearRect(0, 0, this._blockCtx.canvas.width, this._blockCtx.canvas.height);
+            const size = this._previewHeight / 2;
+            this._blockCtx.clearRect(0, 0, this._previewWidth, this._previewHeight);
             this._drawMap(this._blockCtx, data.block.getMap(), size, true, 0, data.block.y * size);
         }
     }
