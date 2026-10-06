@@ -4,7 +4,7 @@ var replace = require('gulp-string-replace');
 gulp.task('default', function () {
   return gulp
     .src('./dist/index.html')
-    .pipe(replace('lang="ru"', 'lang="en"'))
+    .pipe(replace(/\blang=(?:"ru"|'ru'|ru)(?=[\s>])/g, 'lang="en"'))
     .pipe(replace('Классический тетрис онлайн — играйте бесплатно', 'Classic Tetris Online - Play free'))
     .pipe(replace('Классическая игра Тетрис онлайн для ПК и мобильных устройств. Загрузка не требуется. Установка PWA на ios или android. Оптимизировано для сенсорных экранов', 'Classic Tetris game online for PC and mobile devices. No download required. Installing PWA on ios or android. Optimized for touch screens'))
     .pipe(replace('Пауза', 'Paused'))
