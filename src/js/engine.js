@@ -8,10 +8,16 @@ import { Swipe } from "./swipe.js";
 export class Engine {
 
     /** @private @type { number } */
-    _intervalIndex;
+    _animationFrameIndex;
+
+    /** @private @type { number | null } */
+    _lastFrameTime = null;
 
     /** @private @type { number } */
-    _timeoutIndex;
+    _elapsedTime = 0;
+
+    /** @private @type { number } */
+    _fallElapsedTime = 0;
 
     /** @private @type { boolean } */
     _isRunning;
@@ -31,6 +37,11 @@ export class Engine {
     constructor(options) {
         const { game, state } = options;
         this._game = game;
+        this._frame = this._frame.bind(this);
+        document.addEventListener('visibilitychange', () => {
+            // Background time must not cause a jump when the tab becomes visible.
+            this._lastFrameTime = null;
+        });
         if (state) {
             this._applyState(state);
         }
@@ -104,29 +115,60 @@ export class Engine {
         } else {
             if (!this._isRunning) {
                 this._isRunning = true;
-                this._intervalIndex = setInterval(() => {
-                    this._time++;
-                }, 1000);
-                this._step();
+                this._lastFrameTime = performance.now();
+                this._animationFrameIndex = requestAnimationFrame(this._frame);
             }
         }
     }
 
     stop() {
-        clearInterval(this._intervalIndex);
-        clearTimeout(this._timeoutIndex);
+        cancelAnimationFrame(this._animationFrameIndex);
+        this._animationFrameIndex = undefined;
+        this._lastFrameTime = null;
         this._isRunning = false;
+    }
+
+    /**
+     * @private
+     * @param { number } timestamp
+     */
+    _frame(timestamp) {
+        this._animationFrameIndex = undefined;
+        if (!this._isRunning) {
+            return;
+        }
+
+        if (document.hidden) {
+            this._lastFrameTime = null;
+        } else {
+            const elapsed = this._lastFrameTime === null ? 0 : Math.max(0, timestamp - this._lastFrameTime);
+            this._lastFrameTime = timestamp;
+            this._elapsedTime += elapsed;
+            this._fallElapsedTime += elapsed;
+
+            const seconds = Math.floor(this._elapsedTime / 1000);
+            if (seconds) {
+                this._time += seconds;
+                this._elapsedTime %= 1000;
+                this._game.redraw();
+            }
+
+            const interval = getInterval(this._game.level);
+            if (this._fallElapsedTime >= interval) {
+                // Keep fractional progress, but avoid a burst of falls after a slow frame.
+                this._fallElapsedTime = interval > 0 ? this._fallElapsedTime % interval : 0;
+                this._step();
+            }
+        }
+
+        if (this._isRunning) {
+            this._animationFrameIndex = requestAnimationFrame(this._frame);
+        }
     }
 
     _step() {
         this._game.step();
         saveState(this.getState());
-        const interval = getInterval(this._game.level);
-        this._timeoutIndex = setTimeout(() => {
-            if (this._isRunning) {
-                this._step();
-            }
-        }, interval);
     }
 
     /**
@@ -192,7 +234,10 @@ export class Engine {
                 break;
             case 'KeyN':
             case 'newGame':
+                this.stop();
                 this._time = 0;
+                this._elapsedTime = 0;
+                this._fallElapsedTime = 0;
                 this._isGameOver = false;
                 this._game.newGame()
                 this._game.redraw();
