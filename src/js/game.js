@@ -106,6 +106,14 @@ export class Game {
      */
     _moveBlock(offsetX, offsetY) {
         if (!this.moveBlock(offsetX, offsetY)) {
+            const hasCellsAboveField = this._block.getMap().some(
+                (row, y) => y + this._block.y < 0 && row.some(Boolean)
+            );
+            // Keep the whole block active so the player can move or rotate it out.
+            if (hasCellsAboveField) {
+                return;
+            }
+
             copyToMap(this._map, this._block);
             this._addBlock();
             this._updateMenu();
